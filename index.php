@@ -1,3 +1,10 @@
+<?php
+require_once('./database/db_connect.php');
+require_once('./database/create_products_table.php');
+require_once './controllers/ProductController.php';
+
+$productController = new ProductController($conn);
+?>
 <!doctype html>
 <html lang="en">
 
@@ -16,21 +23,17 @@
 	<div class="container">
 		<?php include './components/createTask.php' ?>
 		<div>
-			<h3>Danh sách công việc:</h3>
+			<h3>Danh sách:</h3>
+			<div class="row">
+				<?php
 
-			<?php
-			$tasks = [
-				['title' => 'Công việc 1', 'content' => 'Lorem ispum'],
-				['title' => 'Công việc 2', 'content' => 'is a nom nom'],
-			];
-			foreach ($tasks as $task) {
-				# code...
-				$me = 'Phạm';
-				include './components/task.php';
-			};
+				$products = $productController->getAll();
+				foreach ($products as $product) {
+					include './components/productCard.php';
+				};
 
-			?>
-
+				?>
+			</div>
 		</div>
 	</div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

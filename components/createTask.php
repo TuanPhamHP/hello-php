@@ -1,21 +1,34 @@
 <?php
-if (isset($_POST['task_submit'])) {
-  echo 'Có data nè </br>';
-  echo $_POST['title'];
-  header('Location: ../index.php');
-}
+session_start();
 ?>
+<h2>Nhập thông tin sản phẩm</h2>
 
-<form method="POST" action="./components/createTask.php">
-  <div class="mb-3">
-    <label for="title" class="form-label">Title</label>
-    <input type="text" class="form-control" id="title" placeholder="Title ..." name="title" aria-describedby="emailHelp">
+<!-- Hiển thị thông báo thành công nếu có -->
+<?php if (isset($_SESSION['success_message'])) : ?>
+  <p style="color: green;"><?php echo htmlspecialchars($_SESSION['success_message']); ?></p>
+  <?php unset($_SESSION['success_message']); ?>
+<?php endif; ?>
 
-  </div>
-  <div class=" mb-3">
-    <label for="content" class="form-label">Content</label>
-    <textarea class="form-control" placeholder="Leave a content here" id="content" name="content" style="height: 100px"></textarea>
+<form action="./components/formHandle.php" method="post">
+  <label for="product_name">Tên sản phẩm:</label>
+  <input type="text" id="product_name" name="product_name" value="<?php echo htmlspecialchars($_SESSION['form_data']['product_name'] ?? ''); ?>">
+  <span style="color: red;">
+    <?php echo htmlspecialchars($_SESSION['form_errors']['product_name'] ?? ''); ?>
+  </span>
+  <br><br>
 
-  </div>
-  <button type="submit" name='task_submit' class="btn btn-primary">Submit</button>
+  <label for="regular_price">Giá sản phẩm:</label>
+  <input type="text" id="regular_price" name="regular_price" value="<?php echo htmlspecialchars($_SESSION['form_data']['regular_price'] ?? ''); ?>">
+  <span style="color: red;">
+    <?php echo htmlspecialchars($_SESSION['form_errors']['regular_price'] ?? ''); ?>
+  </span>
+  <br><br>
+
+  <!-- Thêm các trường khác ở đây -->
+
+  <input type="submit" value="Lưu sản phẩm">
+
+  <span style="color: red;">
+    <?php echo htmlspecialchars($_SESSION['form_errors']['general'] ?? ''); ?>
+  </span>
 </form>
